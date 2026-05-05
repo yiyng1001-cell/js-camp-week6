@@ -25,11 +25,12 @@ async function getProducts() {
     // 發送 GET 請求 (預設即為 GET)
     const response = await fetch(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/products`);
     const data = await response.json();
+    console.log(data)
     return data.products; // 回傳產品陣列
 	
 	// 請實作此函式
 	// 提示：
-	// 1. 使用 fetch() 發送 GET 請求
+	// 1. 使用 fetch() 發送 GET 請求 
 	// 2. 使用 response.json() 解析回應
 	// 3. 回傳 data.products
 }
@@ -41,13 +42,12 @@ async function getProducts() {
 async function getCart() {
     const response = await fetch(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/carts`);
     const data = await response.json();
-    // 回傳包含 carts 陣列與金額的物件
-    return {
-        carts: data.carts,
-        total: data.total,
-        finalTotal: data.finalTotal
+
+    const { carts,total,finalTotal }=data
+    // 回傳包含 carts 陣列與金額的物件z
+    return { carts, total, finalTotal
     };
-}
+} 
 
 /**
  * 3. 錯誤處理：當 API 回傳錯誤時，回傳錯誤訊息
@@ -56,7 +56,7 @@ async function getCart() {
 async function getProductsSafe() {
     try {
         const response = await fetch(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/products`);
-        
+         
         // 檢查 HTTP 狀態碼是否在 200-299 之間
         if (!response.ok) {
             return { success: false, error: `伺服器回報錯誤: ${response.status}` };
